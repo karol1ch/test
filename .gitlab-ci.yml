@@ -42,31 +42,17 @@ test:
   script:
     - gradle test
 
-
-test-jdk17:
+test reports:
   stage: test
-  image: gradle:7.4.2-jdk17
   script:
-    - 'gradle test jacocoTestReport' # jacoco must be configured to create an xml report
+    - bundle install
+    - bundle exec rspec --format progress --format RspecJunitFormatter --out rspec.xml
   artifacts:
+    when: always
     paths:
-      - build/jacoco/jacoco.xml
-
-coverage-jdk17:
-  # Must be in a stage later than test-jdk11's stage.
-  # The `visualize` stage does not exist by default.
-  # Please define it first, or chose an existing stage like `deploy`.
-  stage: visualize
-  image: registry.gitlab.com/haynes/jacoco2cobertura:1.0.7
-  script:
-    # convert report from jacoco to cobertura, using relative project path
-    - python /opt/cover2cover.py build/jacoco/jacoco.xml $CI_PROJECT_DIR/src/main/java/ > build/cobertura.xml
-  needs: ["test-jdk17"]
-  artifacts:
+      - rspec.xml
     reports:
-      coverage_report:
-        coverage_format: cobertura
-        path: build/cobertura.xml
+      junit: rspec.xml
 
 static-code-analysis:
   image: gradle:7.4.2-jdk17
