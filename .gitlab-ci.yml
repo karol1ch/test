@@ -42,17 +42,15 @@ test:
   script:
     - gradle test
 
-test reports:
+java:
   stage: test
   script:
-    - bundle install
-    - bundle exec rspec --format progress --format RspecJunitFormatter --out rspec.xml
+    - gradle test
   artifacts:
     when: always
-    paths:
-      - rspec.xml
     reports:
-      junit: rspec.xml
+      junit: build/test-results/test/**/TEST-*.xml
+
 
 static-code-analysis:
   image: gradle:7.4.2-jdk17
