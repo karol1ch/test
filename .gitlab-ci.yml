@@ -41,14 +41,18 @@ test:
   script:
     - gradle test
 
+coverage-test:
+  image: gradle:7.4.2-jdk17
+  stage: test
+  needs:
+    - job: unit-test
+  script:
+    - echo "Running coverage tests..."
+
 static-code-analysis:
   image: gradle:7.4.2-jdk17
   stage: test
   script:
     - echo "Running Static Code Analysis..."
-    - echo "Checking style..."
-    - sh $CI_PROJECT_DIR/gradlew checkstyleMain
-    - echo "Checking duplicated code..."
-    - sh $CI_PROJECT_DIR/gradlew cpdCheck
-    - echo "Checking code standard..."
-    - sh $CI_PROJECT_DIR/gradlew pmdMain
+    - echo "Evaluate Violations..."
+    - sh $CI_PROJECT_DIR/gradlew evaluateViolations
