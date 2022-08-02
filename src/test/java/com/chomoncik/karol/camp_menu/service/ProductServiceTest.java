@@ -35,6 +35,7 @@ class ProductServiceTest {
     private static final String PRODUCT_NAME = "milk";
 
     private static final ProductResponseDTO PRODUCT_RESPONSE_DTO = ProductResponseDTO.builder()
+            .id(1L)
             .name("milk")
             .calories(100)
             .productType(LIQUID.name())

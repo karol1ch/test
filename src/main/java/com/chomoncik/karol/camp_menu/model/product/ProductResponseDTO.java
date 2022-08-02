@@ -1,14 +1,13 @@
 package com.chomoncik.karol.camp_menu.model.product;
 
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.EqualsAndHashCode;
+import lombok.*;
 
-@Data
+@Getter
 @Builder
 @AllArgsConstructor
+@NoArgsConstructor
 @EqualsAndHashCode
+@ToString
 public class ProductResponseDTO {
     private Long id;
     private String name;
