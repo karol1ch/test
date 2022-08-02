@@ -41,14 +41,6 @@ test:
   script:
     - gradle test
 
-coverage-test:
-  image: gradle:7.4.2-jdk17
-  stage: test
-  needs:
-    - job: unit-test
-  script:
-    - echo "Running coverage tests..."
-
 static-code-analysis:
   image: gradle:7.4.2-jdk17
   stage: test
