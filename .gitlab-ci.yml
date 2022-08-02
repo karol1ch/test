@@ -1,14 +1,22 @@
-stages:
-  - test
-  - build
+# Adding workflow rules to avoid other branches to use the pipeline
+# since we only want to use the master branch
+workflow:
+  rules:
+    - if: $CI_COMMIT_TAG
+      when: never
+    - if: $CI_COMMIT_BRANCH == 'master'
 
-test:
-  stage: test
+stages:
+  - clean
+  - build
+  - test
+
+clean:
   image: gradle:7.4.2-jdk17
-  before_script:
-    - export GRADLE_USER_HOME=`pwd`/.gradle
+  stage: clean
   script:
-    - gradle test
+    - echo "Cleaning leftovers from previous builds"
+    - sh $CI_PROJECT_DIR/gradlew clean
 
 gradle-build:
   image: gradle:7.4.2-jdk17
@@ -24,3 +32,23 @@ gradle-build:
     key: gradle-cache
     paths:
       - .gradle/caches
+
+test:
+  stage: test
+  image: gradle:7.4.2-jdk17
+  before_script:
+    - export GRADLE_USER_HOME=`pwd`/.gradle
+  script:
+    - gradle test
+
+static-code-analysis:
+  image: gradle:7.4.2-jdk17
+  stage: test
+  script:
+    - echo "Running Static Code Analysis..."
+    - echo "Checking style..."
+    - sh $CI_PROJECT_DIR/gradlew checkstyleMain
+    - echo "Checking duplicated code..."
+    - sh $CI_PROJECT_DIR/gradlew cpdCheck
+    - echo "Checking code standard..."
+    - sh $CI_PROJECT_DIR/gradlew pmdMain
