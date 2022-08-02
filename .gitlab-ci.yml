@@ -10,6 +10,7 @@ stages:
   - clean
   - build
   - test
+  - visualize
 
 clean:
   image: gradle:7.4.2-jdk17
