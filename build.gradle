@@ -2,7 +2,7 @@ plugins {
     id 'org.springframework.boot' version '2.7.2'
     id 'io.spring.dependency-management' version '1.0.9.RELEASE'
     id 'java'
-    id 'checkstyle'
+    id("com.gradleup.static-analysis") version '1.4'
 }
 
 group = 'com.chomoncik.karol'
@@ -36,3 +36,30 @@ test {
     useJUnitPlatform()
 }
 
+
+staticAnalysis {
+
+    penalty none
+
+    checkstyle {
+        toolVersion '8.8'
+        configFile rootProject.file('gradle/static-code-analysis/checkstyle-modules.xml')
+    }
+}
+
+//---------------------------------------------------------------------------------
+// TASKS
+//---------------------------------------------------------------------------------
+
+tasks.withType(Checkstyle) {
+    reports {
+        xml.enabled false
+        html.enabled true
+    }
+}
+
+task printVersion {
+    doLast {
+        println project.version
+    }
+}
