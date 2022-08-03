@@ -1,5 +1,9 @@
-FROM amazoncorretto:17.0.3-alpine
-VOLUME /tmp
-ARG JAR_FILE
-COPY ${JAR_FILE} app.jar
-CMD java -Djava.security.egd=file:/dev/./urandom -Dserver.port=$PORT -jar /app.jar
+FROM gradle:jdk17-alpine
+RUN mkdir /home/gradle/buildWorkspace
+COPY . /home/gradle/buildWorkspace
+
+WORKDIR /home/gradle/buildWorkspace
+RUN ls /home/gradle/buildWorkspace
+RUN gradle build --no-daemon
+RUN ls /home/gradle/buildWorkspace/app/build/distributions/
+RUN tar -xvf /home/gradle/buildWorkspace/app/build/distributions/app.tar
