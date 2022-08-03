@@ -5,10 +5,19 @@ plugins {
     id("com.gradleup.static-analysis") version '1.4'
 }
 
+
 group = 'com.chomoncik.karol'
 version = '0.0.1-SNAPSHOT'
 description = 'camp_menu'
 sourceCompatibility = '17'
+
+jar {
+    manifest {
+        attributes(
+                'Main-Class': 'com.chomoncik.karol.camp_menu.CampMenuApplication'
+        )
+    }
+}
 
 repositories {
     mavenCentral()
