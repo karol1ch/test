@@ -51,5 +51,4 @@ public class ProductController {
         ProductResponseDTO productResponseDTO = productService.getProductByName(product_name);
         return new ResponseEntity<>(productResponseDTO, OK);
     }
-
 }
