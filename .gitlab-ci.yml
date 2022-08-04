@@ -42,14 +42,6 @@ test:
   script:
     - gradle test
 
-static-code-analysis:
-  image: gradle:7.4.2-jdk17
-  stage: test
-  script:
-    - echo "Running Static Code Analysis..."
-    - echo "Evaluate Violations..."
-    - sh $CI_PROJECT_DIR/gradlew evaluateViolations
-
 heroku-deploy:
   image: docker:stable
   stage: deploy
