@@ -7,41 +7,41 @@ workflow:
     - if: $CI_COMMIT_BRANCH == 'master'
 
 stages:
-#  - clean
-#  - build
-#  - test
+  - clean
+  - build
+  - test
   - deploy
   - validate
 
-#clean:
-#  image: gradle:7.4.2-jdk17
-#  stage: clean
-#  script:
-#    - echo "Cleaning leftovers from previous builds"
-#    - sh $CI_PROJECT_DIR/gradlew clean
-#
-#gradle-build:
-#  image: gradle:7.4.2-jdk17
-#  stage: build
-#  before_script:
-#    - export GRADLE_USER_HOME=`pwd`/.gradle
-#  script:
-#    - gradle clean build -x test
-#  artifacts:
-#    paths:
-#      - build/libs/*.jar
-#  cache:
-#    key: gradle-cache
-#    paths:
-#      - .gradle/caches
-#
-#test:
-#  stage: test
-#  image: gradle:7.4.2-jdk17
-#  before_script:
-#    - export GRADLE_USER_HOME=`pwd`/.gradle
-#  script:
-#    - gradle test
+clean:
+  image: gradle:7.4.2-jdk17
+  stage: clean
+  script:
+    - echo "Cleaning leftovers from previous builds"
+    - sh $CI_PROJECT_DIR/gradlew clean
+
+gradle-build:
+  image: gradle:7.4.2-jdk17
+  stage: build
+  before_script:
+    - export GRADLE_USER_HOME=`pwd`/.gradle
+  script:
+    - gradle clean build -x test
+  artifacts:
+    paths:
+      - build/libs/*.jar
+  cache:
+    key: gradle-cache
+    paths:
+      - .gradle/caches
+
+test:
+  stage: test
+  image: gradle:7.4.2-jdk17
+  before_script:
+    - export GRADLE_USER_HOME=`pwd`/.gradle
+  script:
+    - gradle test
 
 heroku-deploy:
   image: docker:stable
