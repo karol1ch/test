@@ -1,4 +1,4 @@
-FROM openjdk:11-jre-slim
+FROM openjdk:17-jdk-slim-buster
 VOLUME /tmp
 ARG JAR_FILE
 COPY ${JAR_FILE} app.jar

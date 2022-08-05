@@ -1,5 +1,5 @@
 plugins {
-    id 'org.springframework.boot' version '2.2.6.RELEASE'
+    id 'org.springframework.boot' version '2.7.2'
     id 'io.spring.dependency-management' version '1.0.9.RELEASE'
     id 'java'
 }
@@ -7,7 +7,8 @@ plugins {
 
 group = 'com.chomoncik.karol'
 version = '0.0.1-SNAPSHOT'
-sourceCompatibility = '11'
+description = 'camp_menu'
+sourceCompatibility = '17'
 
 repositories {
     mavenCentral()
@@ -22,14 +23,13 @@ dependencies {
     testImplementation('org.springframework.boot:spring-boot-starter-test') {
         exclude group: 'org.junit.vintage', module: 'junit-vintage-engine'
     }
-    testImplementation group: 'org.mockito', name: 'mockito-core', version: '2.25.1'
-    testImplementation group: 'org.mockito', name: 'mockito-junit-jupiter', version: '2.25.1'
+    testImplementation group: 'org.mockito', name: 'mockito-core', version: '4.6.1'
+    testImplementation group: 'org.mockito', name: 'mockito-junit-jupiter', version: '4.6.1'
     testImplementation group: 'org.assertj', name: 'assertj-core', version: '3.12.0'
     testImplementation group: 'org.junit.jupiter', name: 'junit-jupiter-api'
     testImplementation group: 'org.junit.jupiter', name: 'junit-jupiter-params'
-    compileOnly 'org.projectlombok:lombok:1.18.22'
-    annotationProcessor 'org.projectlombok:lombok:1.18.22'
-
+    compileOnly 'org.projectlombok:lombok:1.18.24'
+    annotationProcessor 'org.projectlombok:lombok:1.18.24'
 }
 
 test {
