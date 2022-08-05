@@ -63,7 +63,7 @@ class ProductServiceTest {
         ProductResponseDTO productResponseDTO = productService.getProductByName(PRODUCT_NAME);
 
         //THEN
-         assertThat(productResponseDTO).isEqualTo(null);
+         assertThat(productResponseDTO).isEqualTo(PRODUCT_RESPONSE_DTO);
     }
 
     @Test
