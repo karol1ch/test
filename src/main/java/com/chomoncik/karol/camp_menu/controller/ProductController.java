@@ -33,10 +33,10 @@ public class ProductController {
     @DeleteMapping(path = "{product_name}")
     public ResponseEntity<?> deleteProduct(@PathVariable String product_name) {
         if (!productService.checkIfProductWithNameExist(product_name)) {
-            return new ResponseEntity<>("Product with name " + product_name +" not exist", NOT_FOUND);
+            return new ResponseEntity<>("Product with name " + product_name + " not exist", NOT_FOUND);
         } else {
             productService.deleteProductByName(product_name);
-            return new ResponseEntity<>(NO_CONTENT);
+            return new ResponseEntity<>("Delete product with name = " + product_name, NO_CONTENT);
         }
     }
 
