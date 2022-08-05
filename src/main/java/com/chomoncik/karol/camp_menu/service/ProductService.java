@@ -8,6 +8,7 @@ import com.chomoncik.karol.camp_menu.model.product.ProductResponseDTO;
 import com.chomoncik.karol.camp_menu.repository.ProductRepository;
 
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.nio.file.ReadOnlyFileSystemException;
 import java.util.List;
@@ -57,6 +58,7 @@ public class ProductService {
         return product.isPresent();
     }
 
+    @Transactional
     public void deleteProductByName(String name) {
         productRepository.deleteProductByName(name);
     }
