@@ -7,8 +7,3 @@ http = urllib3.PoolManager()
 response = http.request('GET', 'http://' + host + '/products')
 if response.status != 200:
     sys.exit(1)
-if response.headers['Content-Type'] != 'application/json;charset=UTF-8':
-    sys.exit(2)
-products = json.loads(response.data.decode('utf-8'))
-if len(persons) != 0:
-    sys.exit(3)
