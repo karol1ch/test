@@ -12,5 +12,5 @@ if response.headers['Content-Type'] != 'application/json;charset=UTF-8':
 product = json.loads(response.data.decode('utf-8'))
 if product['name'] != 'milk':
     sys.exit(3)
-if product['calories'] != 100:
+if product['calories'] != '100':
     sys.exit(4)
