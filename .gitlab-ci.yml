@@ -11,6 +11,7 @@ stages:
   - build
   - test
   - deploy
+  - validate
 
 clean:
   image: gradle:7.4.2-jdk17
@@ -59,3 +60,13 @@ heroku-deploy:
     - docker push registry.heroku.com/$HEROKU_APP_NAME/web
     - chmod +x release-docker-in-heroku.sh
     - ./release-docker-in-heroku.sh $HEROKU_APP_NAME $HEROKU_API_KEY
+
+
+heroku-validate:
+  image: python:alpine
+  stage: validate
+  before_script:
+    - pip install urllib3
+  script:
+    - python src/test/acceptance/acc01.py $HEROKU_APP_NAME
+    - python src/test/acceptance/acc02.py $HEROKU_APP_NAME
