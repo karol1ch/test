@@ -72,5 +72,5 @@ heroku-validate:
     - python src/test/acceptance/acc02.py $HEROKU_APP_NAME
     - python src/test/acceptance/acc03.py $HEROKU_APP_NAME
     - python src/test/acceptance/acc04.py $HEROKU_APP_NAME
-    - python src/test/acceptance/acc05.py $HEROKU_APP_NAME
-    - python src/test/acceptance/acc06.py $HEROKU_APP_NAME
+#    - python src/test/acceptance/acc05.py $HEROKU_APP_NAME
+#    - python src/test/acceptance/acc06.py $HEROKU_APP_NAME
