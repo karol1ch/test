@@ -70,3 +70,4 @@ heroku-validate:
   script:
     - python src/test/acceptance/acc01.py $HEROKU_APP_NAME
     - python src/test/acceptance/acc02.py $HEROKU_APP_NAME
+    - python src/test/acceptance/acc03.py $HEROKU_APP_NAME
