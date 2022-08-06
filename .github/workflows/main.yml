@@ -12,4 +12,4 @@ jobs:
 
     steps:
       - run: echo "Cleaning leftovers from previous builds"
-      - run: sh $CI_PROJECT_DIR/gradlew clean
+      - run: sh ./gradlew clean
