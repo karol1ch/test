@@ -1,4 +1,4 @@
-name: Deploy
+name: Github Workflow
 
 on:
   push:
@@ -6,12 +6,10 @@ on:
       - master
 
 jobs:
-  build:
+  clean:
     runs-on: ubuntu-latest
+    container: gradle:7.4.2-jdk17
+
     steps:
-      - uses: actions/checkout@v2
-      - uses: akhileshns/heroku-deploy@v3.12.12 # This is the action
-        with:
-          heroku_api_key: ${{secrets.HEROKU_API_KEY}}
-          heroku_app_name: ${{secrets.HEROKU_APP_NAME}}
-          heroku_email: ${{secrets.HEROKU_USER}}
+      - run: echo "Cleaning leftovers from previous builds"
+      - run: sh $CI_PROJECT_DIR/gradlew clean
