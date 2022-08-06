@@ -1,0 +1,15 @@
+name: Github Workflow
+
+on:
+  push:
+    branches:
+      - master
+
+jobs:
+  clean:
+    runs-on: ubuntu-latest
+    container: gradle:7.4.2-jdk17
+
+    steps:
+      - run: echo "Cleaning leftovers from previous builds"
+      - run: sh $CI_PROJECT_DIR/gradlew clean
