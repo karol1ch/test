@@ -6,7 +6,7 @@ on:
       - master
 
 jobs:
-  gradle-build2:
+  gradle-clean:
     strategy:
       matrix:
         os: [ubuntu-latest, macos-latest, windows-latest]
@@ -24,8 +24,8 @@ jobs:
       - name: Setup Gradle
         uses: gradle/gradle-build-action@v2
 
-      - name: Execute Gradle build
-        run: ./gradlew build
+      - name: Execute Gradle clean
+        run: sh ./gradlew clean
 
   gradle-build:
     strategy:
