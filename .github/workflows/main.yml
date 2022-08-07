@@ -15,6 +15,9 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v2
 
+      - name: Set jar
+        run: docker build --build-arg JAR_FILE=`ls build/libs/*.jar
+
 
       ### ⬇ IMPORTANT PART ⬇ ###
 
