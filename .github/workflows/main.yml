@@ -1,22 +1,30 @@
-name: Heroku Deployment
+name: Deploy
+
+concurrency:
+  group: deploy
+  cancel-in-progress: false
 
 on:
   push:
-    branches: [ master ]
+    branches:
+      - master
 
 jobs:
-  build:
-
+  deploy:
+    name: Deploy
     runs-on: ubuntu-latest
-
+    timeout-minutes: 20
     steps:
-      - uses: actions/checkout@v2
-      - name: Deploy to Heroku
-        uses: AkhileshNS/heroku-deploy@v3.12.12
+      - name: Checkout code
+        uses: actions/checkout@v3
         with:
-          # This will be used for authentication. You can find it in your heroku homepage account settings
+          fetch-depth: 0
+
+      - name: Deploy code
+        uses: akhileshns/heroku-deploy@v3.12.12
+        with:
           heroku_api_key: ${{secrets.HEROKU_API_KEY}}
-          # Email that you use with heroku
+          heroku_app_name: ${{secrets.HEROKU_APP_NAME}}
           heroku_email: ${{secrets.HEROKU_USER}}
-          # The appname to use for deploying/updating
-          heroku_app_name: ${{secrets.HEROKU_APP}}
+          dontuseforce: true
+          dontautocreate: true
