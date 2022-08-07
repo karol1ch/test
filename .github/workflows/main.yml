@@ -45,7 +45,6 @@ jobs:
 
 
 
-      - run: apk add --update curl && rm -rf /var/cache/apk/*
       - run: docker build --build-arg JAR_FILE=`ls build/libs/*.jar | head -1` --tag registry.heroku.com/$HEROKU_APP_NAME/web .
       - run: docker push registry.heroku.com/$HEROKU_APP_NAME/web
       - run: chmod +x release-docker-in-heroku.sh
