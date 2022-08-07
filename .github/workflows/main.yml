@@ -20,7 +20,7 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v2
       - run: docker login --username=karol.chomoncik@gmail.com --password=6fcf55b2-bcee-4c5d-aed5-d5c36b477802 registry.heroku.com
-      - run: apk add --update curl && rm -rf /var/cache/apk/*
+      - run: apt add --update curl && rm -rf /var/cache/apt/*
       - run: docker build --build-arg JAR_FILE=`ls build/libs/*.jar | head -1` --tag registry.heroku.com/$HEROKU_APP_NAME/web .
       - run: docker push registry.heroku.com/$HEROKU_APP_NAME/web
       - run: chmod +x release-docker-in-heroku.sh
