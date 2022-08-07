@@ -15,4 +15,5 @@ jobs:
           heroku_api_key: ${{secrets.HEROKU_API_KEY}}
           heroku_app_name: ${{secrets.HEROKU_APP_NAME}}
           heroku_email: ${{secrets.HEROKU_USER}}
-          usedocker: true 
+          usedocker: true
+      - run: ./release-docker-in-heroku.sh $HEROKU_APP_NAME $HEROKU_API_KEY
