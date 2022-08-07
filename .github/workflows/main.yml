@@ -1,26 +1,22 @@
-# Your workflow name.
-name: Deploy to heroku.
-# Run workflow on every push to master branch.
+name: Heroku Deployment
+
 on:
   push:
-    branches: [master]
-# Your workflows jobs.
+    branches: [ master ]
+
 jobs:
   build:
+
     runs-on: ubuntu-latest
 
-    services:
-      docker:dind:
-        image: docker:stable
-        env:
-          DOCKER_HOST: tcp://docker:2375
-          DOCKER_DRIVER: overlay2
     steps:
-      # Check-out your repository.
-      - name: Checkout
-        uses: actions/checkout@v2
-      - run: docker login --username=karol.chomoncik@gmail.com --password=6fcf55b2-bcee-4c5d-aed5-d5c36b477802 registry.heroku.com
-      - run: docker build --build-arg JAR_FILE=`ls build/libs/*.jar | head -1` --tag registry.heroku.com/$HEROKU_APP_NAME/web .
-      - run: docker push registry.heroku.com/$HEROKU_APP_NAME/web
-      - run: chmod +x release-docker-in-heroku.sh
-      - run: ./release-docker-in-heroku.sh $HEROKU_APP_NAME $HEROKU_API_KEY
+      - uses: actions/checkout@v2
+      - name: Deploy to Heroku
+        uses: AkhileshNS/heroku-deploy@v3.12.12
+        with:
+          # This will be used for authentication. You can find it in your heroku homepage account settings
+          heroku_api_key: ${{secrets.HEROKU_API_KEY}}
+          # Email that you use with heroku
+          heroku_email: ${{secrets.HEROKU_USER}}
+          # The appname to use for deploying/updating
+          heroku_app_name: ${{secrets.HEROKU_APP}}
