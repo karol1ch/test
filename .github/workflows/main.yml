@@ -15,8 +15,7 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v2
 
-      - name: Set jar
-        run: docker build --build-arg JAR_FILE=`ls build/libs/*.jar
+      - run: docker build --build-arg JAR_FILE=`ls build/libs/*.jar | head -1` --tag registry.heroku.com/$HEROKU_APP_NAME/web .
 
 
       ### ⬇ IMPORTANT PART ⬇ ###
