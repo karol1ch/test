@@ -8,46 +8,16 @@ on:
 
 # Your workflows jobs.
 jobs:
-  build:
+  heroku-deploy:
     runs-on: ubuntu-latest
-
-    services:
-      docker:dind:
-        image: docker:stable
-        env:
-          CONTAINER_IMAGE: registry.gitlab.com/$CI_PROJECT_PATH
-          DOCKER_HOST: tcp://docker:2375
-          DOCKER_DRIVER: overlay2
-
     steps:
-      # Check-out your repository.
       - name: Check out repository
         uses: actions/checkout@v2
+      - name: Deploy to Heroku
+        uses: akhileshns/heroku-deploy@v3.12.12
         with:
-          fetch-depth: 0
-      - name: Heroku login credentials
-        run: |
-          cat > ~/.netrc <<EOF
-            machine api.heroku.com
-              login HEROKU_USER
-              password $HEROKU_API_KEY
-            machine git.heroku.com
-              login HEROKU_USER
-              password $HEROKU_API_KEY
-          EOF
-        env:
-          HEROKU_API_KEY: ${{ secrets.HEROKU_API_KEY }}
-          HEROKU_USER: ${{ secrets.HEROKU_USER }}
-      - name: Add Heroku remote
-        run: heroku git:remote --app $HEROKU_APP_NAME
-        env:
-          HEROKU_APP_NAME: ${{ secrets.HEROKU_APP_NAME }}
-
-
-
-      - run: docker build --build-arg JAR_FILE=`ls build/libs/*.jar | head -1` --tag registry.heroku.com/$HEROKU_APP_NAME/web .
-      - run: docker push registry.heroku.com/$HEROKU_APP_NAME/web
-      - run: chmod +x release-docker-in-heroku.sh
-      - run: ./release-docker-in-heroku.sh $HEROKU_APP_NAME $HEROKU_API_KEY
+          heroku_api_key: ${{ secrets.HEROKU_API_KEY }}
+          heroku_app_name: ${{ secrets.HEROKU_APP_NAME }}
+          heroku_email: ${{ secrets.HEROKU_EMAIL }}
 
           
