@@ -1,8 +1,9 @@
 name: Github Workflow
 on:
-  push:
+  pull_request:
     branches:
-      - main
+      - master
+
 jobs:
   gradle-clean:
     runs-on: ubuntu-latest
