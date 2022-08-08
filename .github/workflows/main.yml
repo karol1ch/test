@@ -10,4 +10,4 @@ jobs:
         - uses: actions/checkout@v2
         - uses: jirutka/setup-alpine@v1
         - run: pip install urllib3
-        - run: python src/test/acceptance/acc01.py $HEROKU_APP_NAME_PROD
+        - run: python src/test/acceptance/acc01.py ${{secrets.HEROKU_APP_NAME_PROD}}
