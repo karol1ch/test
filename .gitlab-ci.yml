@@ -2,9 +2,9 @@
 # since we only want to use the master branch
 workflow:
   rules:
-    - if: $CI_COMMIT_TAG
-      when: never
-    - if: $CI_COMMIT_BRANCH == 'master'
+    - if: $CI_MERGE_REQUEST_ID
+      when: always
+    - when: never
 
 stages:
   - clean
@@ -43,7 +43,7 @@ test:
   script:
     - gradle test
 
-heroku-deploy:
+heroku-deploy-dev:
   image: docker:stable
   stage: deploy
   variables:
@@ -74,3 +74,21 @@ heroku-validate:
     - python src/test/acceptance/acc04.py $HEROKU_APP_NAME
     - python src/test/acceptance/acc05.py $HEROKU_APP_NAME
     - python src/test/acceptance/acc06.py $HEROKU_APP_NAME
+
+heroku-deploy-prod:
+  image: docker:stable
+  stage: deploy
+  variables:
+    CONTAINER_IMAGE: registry.gitlab.com/$CI_PROJECT_PATH
+    DOCKER_HOST: tcp://docker:2375
+    DOCKER_DRIVER: overlay2
+  services:
+    - docker:dind
+  before_script:
+    - docker login --username=$HEROKU_USER --password=$HEROKU_API_KEY registry.heroku.com
+    - apk add --update curl && rm -rf /var/cache/apk/*
+  script:
+    - docker build --build-arg JAR_FILE=`ls build/libs/*.jar | head -1` --tag registry.heroku.com/$HEROKU_APP_NAME_PROD/web .
+    - docker push registry.heroku.com/$HEROKU_APP_NAME_PROD/web
+    - chmod +x release-docker-in-heroku.sh
+    - ./release-docker-in-heroku.sh $HEROKU_APP_NAME_PROD $HEROKU_API_KEY
