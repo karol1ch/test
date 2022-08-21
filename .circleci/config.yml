@@ -1,61 +1,22 @@
-version: 2.1
-
+version: 2
 jobs:
-  gradle-clean:
+  build:
     docker:
-      - image: cimg/base:2022.05
+      - image: circleci/openjdk:8-jdk
+    working_directory: ~/repo
+    environment:
+      JVM_OPTS: -Xmx3200m
+      TERM: dumb
     steps:
-      - run: echo "Started gradle-clean"
-      - run: sleep 5s
-
-  gradle-build:
-    docker:
-      - image: cimg/base:2022.05
-    steps:
-      - run: echo "Started gradle-build"
-      - run: sleep 40s
-
-  gradle-test:
-    docker:
-      - image: cimg/base:2022.05
-    steps:
-      - run: echo "Started gradle-test"
-      - run: sleep 30s
-
-  deploy-on-dev:
-    docker:
-      - image: cimg/base:2022.05
-    steps:
-      - run: echo "Started deploy-on-dev"
-      - run: sleep 100s
-
-  validate-deploy:
-    docker:
-      - image: cimg/base:2022.05
-    steps:
-      - run: echo "Started validate-deploy"
-      - run: sleep 10s
-
-  deploy-on-prod:
-    docker:
-      - image: cimg/base:2022.05
-    steps:
-      - run: echo "Started deploy-on-prod"
-      - run: sleep 90s
-
-workflows:
-  version: 2
-  my_workflow:
-    jobs:
-      - gradle-clean
-      - gradle-build
-      - gradle-test
-      - deploy-on-dev:
-          requires:
-            - gradle-test
-      - validate-deploy:
-          requires:
-            - deploy-on-dev
-      - deploy-on-prod:
-          requires:
-            - validate-deploy
+      - checkout
+      - restore_cache:
+          keys:
+            - v1-dependencies-{{ checksum "build.gradle" }}
+            - v1-dependencies-
+      - run: gradle dependencies
+      - save_cache:
+          paths:
+            - ~/.m2
+          key: v1-dependencies-{{ checksum "build.gradle" }}
+      # run tests!
+      - run: gradle test
