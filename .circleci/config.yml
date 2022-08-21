@@ -2,32 +2,38 @@ version: 2
 
 jobs:
   gradle-clean:
-    executor: my-ubuntu-exec
+    docker:
+      - image: cimg/base:2022.05
     steps:
       - run: echo "Started gradle-clean"
 
   gradle-build:
-    executor: my-ubuntu-exec
+    docker:
+      - image: cimg/base:2022.05
     steps:
       - run: echo "Started gradle-build"
 
   gradle-test:
-    executor: my-ubuntu-exec
+    docker:
+      - image: cimg/base:2022.05
     steps:
       - run: echo "Started gradle-test"
 
   deploy-on-dev:
-    executor: my-ubuntu-exec
+    docker:
+      - image: cimg/base:2022.05
     steps:
       - run: echo "Started deploy-on-dev"
 
   validate-deploy:
-    executor: my-ubuntu-exec
+    docker:
+      - image: cimg/base:2022.05
     steps:
       - run: echo "Started validate-deploy"
 
   deploy-on-prod:
-    executor: my-ubuntu-exec
+    docker:
+      - image: cimg/base:2022.05
     steps:
       - run: echo "Started deploy-on-prod"
 
