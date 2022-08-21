@@ -1,25 +1,47 @@
 version: 2
 jobs:
-  build:
-    docker:
-      - image: gradle:7.4.2-jdk17
-
-
-    working_directory: ~/repo
-
+  gradle-clean:
+    executor: my-ubuntu-exec
     steps:
-      -checkout
+      - run: echo "Started gradle-clean"
 
-      - restore-cache:
-          keys:
-            - v1-dependencies-{{ checksum "package.json"}}
-            - v1-dependencies-
+  gradle-build:
+    executor: my-ubuntu-exec
+    steps:
+      - run: echo "Started gradle-build"
 
-      - run: yarn install
+  gradle-test:
+    executor: my-ubuntu-exec
+    steps:
+      - run: echo "Started gradle-test"
 
-      -save_cache:
-        paths:
-          - node_modules
-        key: v1-dependencies-{{ checksum "package.json"}}
+  deploy-on-dev:
+    executor: my-ubuntu-exec
+    steps:
+      - run: echo "Started deploy-on-dev"
 
-      -run: yarn test
+  validate-deploy:
+    executor: my-ubuntu-exec
+    steps:
+      - run: echo "Started validate-deploy"
+
+  deploy-on-prod:
+    executor: my-ubuntu-exec
+    steps:
+      - run: echo "Started deploy-on-prod"
+
+workflows:
+  my_workflow:
+    jobs:
+      - gradle-clean
+      - gradle-build
+      - gradle-test
+      - deploy-on-dev:
+          requires:
+            - gradle-test
+      - validate-deploy:
+          requires:
+            - deploy-on-dev
+      - deploy-on-prod:
+          requires:
+            - validate-deploy
