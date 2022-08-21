@@ -13,31 +13,35 @@ jobs:
       - image: cimg/base:2022.05
     steps:
       - run: echo "Started gradle-build"
-      - run: sleep 30s
+      - run: sleep 40s
 
   gradle-test:
     docker:
       - image: cimg/base:2022.05
     steps:
       - run: echo "Started gradle-test"
+      - run: sleep 30s
 
   deploy-on-dev:
     docker:
       - image: cimg/base:2022.05
     steps:
       - run: echo "Started deploy-on-dev"
+      - run: sleep 100s
 
   validate-deploy:
     docker:
       - image: cimg/base:2022.05
     steps:
       - run: echo "Started validate-deploy"
+      - run: sleep 10s
 
   deploy-on-prod:
     docker:
       - image: cimg/base:2022.05
     steps:
       - run: echo "Started deploy-on-prod"
+      - run: sleep 90s
 
 workflows:
   version: 2
